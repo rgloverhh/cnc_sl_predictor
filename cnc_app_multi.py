@@ -14,6 +14,7 @@ model_pcp = load_model('pcp_xg_model.pkl')
 model_cc = load_model('cc_xg_model.pkl')
 model_hc = load_model('heart_xg_model.pkl')
 model_ma = load_model('ma_xg_model.pkl')
+model_ref = load_model('ref_xg_model.pkl')
 
 def predict_pcp(input1, input2, input3, input4):
     sl = model_pcp.predict([[input1, input2, input3, input4]])
@@ -31,13 +32,17 @@ def predict_ma(input1, input2, input3, input4):
     sl = model_ma.predict([[input1, input2, input3, input4]])
     return sl[0]
 
+def predict_ref(input1, input2, input3, input4):
+    sl = model_ref.predict([[input1, input2, input3, input4]])
+    return sl[0]
+
 
 def main():
     st.title("CNC Service Level Predictor")
     st.text("Please fill in the responses below to predict service level")
     st.caption("Model updated July 3 2024 - default values are the daily averages from June 2024")
     st.sidebar.header("CNC Call Departments")
-    selected_model = st.sidebar.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA CRT Team"])
+    selected_model = st.sidebar.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA CRT Team", "Referral Calls"])
 
     if selected_model == "Primary Care":
         with st.container(border=True):
@@ -161,6 +166,37 @@ def main():
         st.sidebar.caption("Model: eXtreme Gradient Boosting (XGBoost)") 
         st.sidebar.caption("Data timeframes: 7/3/2023-7/2/2024")
         st.sidebar.caption("Current accuracy: 87.6%")
+
+
+    elif selected_model == "Referral Calls":
+        with st.container(border=True):
+            st.text("1. Call Volumes")
+            calls_offered = st.number_input(label="Enter a call volume between 150 and 600", min_value=150, max_value=600, step=1, value=318)
+        with st.container(border=True):
+            st.text("2. Average Handle Time")
+            aht_minutes = st.number_input(label="Enter AHT minutes between 4 and 7", min_value=4, max_value=7, step=1, value=4)
+            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=43)
+        with st.container(border=True):
+            st.text("3. Not Ready Rate")
+            not_ready = st.number_input(label="Enter Not Ready Rate between 10 and 30", min_value=10.0, max_value=30.0, step=0.1, value=15.8)
+        with st.container(border=True):
+            st.text("4. FTEs Logged In (Use Power BI CNC Call Metrics Staffing as a guide)")
+            ftes_logged_in = st.number_input(label="Enter FTEs between 2 and 8", min_value=2.0, max_value=8.0, step=0.1, value=4.7)
+        not_ready_con = not_ready/100
+        aht = aht_minutes + (aht_seconds/60)
+        sl_prediction_temp = predict_ma(calls_offered, aht, not_ready_con, ftes_logged_in)
+        sl_prediction = sl_prediction_temp*100
+        with st.container(border=True):
+            st.header("Referral Calls Service Level Prediction")
+            if sl_prediction <= 0:
+                st.subheader("0%")
+            elif sl_prediction >= 100:
+                st.subheader("100%")
+            else:
+                st.subheader(f"{sl_prediction}%")
+        st.sidebar.caption("Model: eXtreme Gradient Boosting (XGBoost)") 
+        st.sidebar.caption("Data timeframes: 10/3/2022-7/11/2024")
+        st.sidebar.caption("Current accuracy: 84.0%")        
    
 if __name__ == "__main__":
     main()
