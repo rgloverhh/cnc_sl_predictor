@@ -40,7 +40,7 @@ def predict_ref(input1, input2, input3, input4):
 def main():
     st.title("CNC Service Level Predictor")
     st.text("Please fill in the responses below to predict service level")
-    st.caption("Model updated July 3 2024 - default values are the daily averages from June 2024")
+    st.caption("Model updated July 15 2024 - default values are the daily averages from June 2024")
     st.sidebar.header("CNC Call Departments")
     selected_model = st.sidebar.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA CRT Team", "Referral Calls"])
 
@@ -184,7 +184,7 @@ def main():
             ftes_logged_in = st.number_input(label="Enter FTEs between 2 and 8", min_value=2.0, max_value=8.0, step=0.1, value=4.7)
         not_ready_con = not_ready/100
         aht = aht_minutes + (aht_seconds/60)
-        sl_prediction_temp = predict_ma(calls_offered, aht, not_ready_con, ftes_logged_in)
+        sl_prediction_temp = predict_ref(calls_offered, aht, not_ready_con, ftes_logged_in)
         sl_prediction = sl_prediction_temp*100
         with st.container(border=True):
             st.header("Referral Calls Service Level Prediction")
