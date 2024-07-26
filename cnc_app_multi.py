@@ -47,7 +47,7 @@ def main():
     if selected_model == "Primary Care":
         with st.container(border=True):
             st.text("1. Call Volumes")
-            calls_offered = st.number_input(label="Enter a call volume between 500 and 3000", min_value=500, max_value=4000, step=1, value=1923)
+            calls_offered = st.number_input(label="Enter a call volume between 500 and 4000", min_value=500, max_value=4000, step=1, value=1923)
         with st.container(border=True):
             st.text("2. Average Handle Time")
             aht_minutes = st.number_input(label="Enter AHT minutes between 4 and 6", min_value=4, max_value=6, step=1, value=5)
