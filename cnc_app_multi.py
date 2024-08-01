@@ -88,7 +88,7 @@ def main():
             not_ready = st.number_input(label="Enter Not Ready Rate between 15 and 35", min_value=15.0, max_value=35.0, step=0.1, value=24.0)
         with st.container(border=True):
             st.text("4. FTEs Logged In (Use Power BI CNC Call Metrics Staffing as a guide)")
-            ftes_logged_in = st.number_input(label="Enter FTEs between 7 and 17", min_value=7.0, max_value=17.0, step=0.1, value=15)
+            ftes_logged_in = st.number_input(label="Enter FTEs between 7 and 17", min_value=7.0, max_value=17.0, step=0.1, value=15.0)
         not_ready_con = not_ready/100
         aht = aht_minutes + (aht_seconds/60)
         sl_prediction_temp = predict_cc(calls_offered, aht, not_ready_con, ftes_logged_in)
