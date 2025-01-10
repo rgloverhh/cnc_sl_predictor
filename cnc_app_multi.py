@@ -40,24 +40,24 @@ def predict_ref(input1, input2, input3, input4):
 def main():
     st.title("CNC Service Level Predictor")
     st.text("Please fill in the responses below to predict service level")
-    st.caption("Model updated Nov 7 2024 - default values are the daily averages from Oct 2024")
+    st.caption("Model updated Jan 8 2024 - default values are the daily averages from Dec 2024")
     st.sidebar.header("CNC Call Departments")
     selected_model = st.sidebar.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA CRT Team", "Referral Calls"])
 
     if selected_model == "Primary Care":
         with st.container(border=True):
             st.text("1. Call Volumes")
-            calls_offered = st.number_input(label="Enter a call volume between 500 and 4000", min_value=500, max_value=4000, step=1, value=2447)
+            calls_offered = st.number_input(label="Enter a call volume between 500 and 4000", min_value=500, max_value=4000, step=1, value=2731)
         with st.container(border=True):
             st.text("2. Average Handle Time")
             aht_minutes = st.number_input(label="Enter AHT minutes between 4 and 6", min_value=4, max_value=6, step=1, value=5)
-            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=29)
+            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=30)
         with st.container(border=True):
             st.text("3. Not Ready Rate")
-            not_ready = st.number_input(label="Enter Not Ready Rate between 15 and 35", min_value=15.0, max_value=35.0, step=0.1, value=20.7)
+            not_ready = st.number_input(label="Enter Not Ready Rate between 15 and 35", min_value=15.0, max_value=35.0, step=0.1, value=18.8)
         with st.container(border=True):
             st.text("4. FTEs Logged In (Use Power BI CNC Call Metrics Staffing as a guide)")
-            ftes_logged_in = st.number_input(label="Enter FTEs between 20 and 45", min_value=20.0, max_value=45.0, step=0.1, value=29.6)
+            ftes_logged_in = st.number_input(label="Enter FTEs between 20 and 45", min_value=20.0, max_value=45.0, step=0.1, value=32.9)
         not_ready_con = not_ready/100
         aht = aht_minutes + (aht_seconds/60)
         sl_prediction_temp = predict_pcp(calls_offered, aht, not_ready_con, ftes_logged_in)
@@ -71,24 +71,24 @@ def main():
             else:
                 st.subheader(f"{sl_prediction}%")
         st.sidebar.caption("Model: eXtreme Gradient Boosting (XGBoost)")
-        st.sidebar.caption("Data timeframes: 10/3/2022-11/6/2024")
-        st.sidebar.caption("Current accuracy: 91.70% (3.65%)")
+        st.sidebar.caption("Data timeframes: 10/3/2022-1/7/2025")
+        st.sidebar.caption("Current accuracy: 91.94% (3.54%)")
 
 
     elif selected_model == "Cancer Care":
         with st.container(border=True):
             st.text("1. Call Volumes")
-            calls_offered = st.number_input(label="Enter a call volume between 300 and 1400", min_value=300, max_value=1400, step=1, value=831)
+            calls_offered = st.number_input(label="Enter a call volume between 300 and 1400", min_value=300, max_value=1400, step=1, value=817)
         with st.container(border=True):
             st.text("2. Average Handle Time")
             aht_minutes = st.number_input(label="Enter AHT minutes between 5 and 7", min_value=5, max_value=7, step=1, value=5)
-            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=35)
+            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=20)
         with st.container(border=True):
             st.text("3. Not Ready Rate")
             not_ready = st.number_input(label="Enter Not Ready Rate between 15 and 35", min_value=15.0, max_value=35.0, step=0.1, value=22.9)
         with st.container(border=True):
             st.text("4. FTEs Logged In (Use Power BI CNC Call Metrics Staffing as a guide)")
-            ftes_logged_in = st.number_input(label="Enter FTEs between 7 and 17", min_value=7.0, max_value=17.0, step=0.1, value=13.4)
+            ftes_logged_in = st.number_input(label="Enter FTEs between 7 and 17", min_value=7.0, max_value=17.0, step=0.1, value=13.6)
         not_ready_con = not_ready/100
         aht = aht_minutes + (aht_seconds/60)
         sl_prediction_temp = predict_cc(calls_offered, aht, not_ready_con, ftes_logged_in)
@@ -102,24 +102,24 @@ def main():
             else:
                 st.subheader(f"{sl_prediction}%")
         st.sidebar.caption("Model: eXtreme Gradient Boosting (XGBoost)") 
-        st.sidebar.caption("Data timeframes: 6/3/2022-11/6/2024")
-        st.sidebar.caption("Current accuracy: 86.78% (3.57%)")
+        st.sidebar.caption("Data timeframes: 6/3/2022-1/7/2025")
+        st.sidebar.caption("Current accuracy: 84.82% (4.00%)")
 
 
     elif selected_model == "Heart Care":
         with st.container(border=True):
             st.text("1. Call Volumes")
-            calls_offered = st.number_input(label="Enter a call volume between 300 and 1400", min_value=300, max_value=1400, step=1, value=828)
+            calls_offered = st.number_input(label="Enter a call volume between 300 and 1400", min_value=300, max_value=1400, step=1, value=830)
         with st.container(border=True):
             st.text("2. Average Handle Time")
             aht_minutes = st.number_input(label="Enter AHT minutes between 4 and 7", min_value=4, max_value=7, step=1, value=5)
-            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=6)
+            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=12)
         with st.container(border=True):
             st.text("3. Not Ready Rate")
-            not_ready = st.number_input(label="Enter Not Ready Rate between 15 and 35", min_value=15.0, max_value=35.0, step=0.1, value=22.0)
+            not_ready = st.number_input(label="Enter Not Ready Rate between 15 and 35", min_value=15.0, max_value=35.0, step=0.1, value=20.0)
         with st.container(border=True):
             st.text("4. FTEs Logged In (Use Power BI CNC Call Metrics Staffing as a guide)")
-            ftes_logged_in = st.number_input(label="Enter FTEs between 7 and 18", min_value=7.0, max_value=18.0, step=0.1, value=13.8)
+            ftes_logged_in = st.number_input(label="Enter FTEs between 7 and 18", min_value=7.0, max_value=18.0, step=0.1, value=12.8)
         not_ready_con = not_ready/100
         aht = aht_minutes + (aht_seconds/60)
         sl_prediction_temp = predict_hc(calls_offered, aht, not_ready_con, ftes_logged_in)
@@ -133,24 +133,24 @@ def main():
             else:
                 st.subheader(f"{sl_prediction}%")
         st.sidebar.caption("Model: eXtreme Gradient Boosting (XGBoost)") 
-        st.sidebar.caption("Data timeframes: 1/3/2022-11/6/2024")
-        st.sidebar.caption("Current accuracy: 92.10% (1.84%)")
+        st.sidebar.caption("Data timeframes: 1/3/2022-1/7/2025")
+        st.sidebar.caption("Current accuracy: 92.15% (2.33%)")
 
 
     elif selected_model == "MA CRT Team":
         with st.container(border=True):
             st.text("1. Call Volumes")
-            calls_offered = st.number_input(label="Enter a call volume between 200 and 1100", min_value=200, max_value=1100, step=1, value=530)
+            calls_offered = st.number_input(label="Enter a call volume between 200 and 1100", min_value=200, max_value=1100, step=1, value=615)
         with st.container(border=True):
             st.text("2. Average Handle Time")
             aht_minutes = st.number_input(label="Enter AHT minutes between 5 and 9", min_value=5, max_value=9, step=1, value=7)
-            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=23)
+            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=12)
         with st.container(border=True):
             st.text("3. Not Ready Rate")
-            not_ready = st.number_input(label="Enter Not Ready Rate between 20 and 45", min_value=20.0, max_value=45.0, step=0.1, value=36.9)
+            not_ready = st.number_input(label="Enter Not Ready Rate between 20 and 45", min_value=20.0, max_value=45.0, step=0.1, value=34.4)
         with st.container(border=True):
             st.text("4. FTEs Logged In (Use Power BI CNC Call Metrics Staffing as a guide)")
-            ftes_logged_in = st.number_input(label="Enter FTEs between 4 and 15", min_value=4.0, max_value=15.0, step=0.1, value=9.0)
+            ftes_logged_in = st.number_input(label="Enter FTEs between 4 and 15", min_value=4.0, max_value=15.0, step=0.1, value=8.3)
         not_ready_con = not_ready/100
         aht = aht_minutes + (aht_seconds/60)
         sl_prediction_temp = predict_ma(calls_offered, aht, not_ready_con, ftes_logged_in)
@@ -164,24 +164,24 @@ def main():
             else:
                 st.subheader(f"{sl_prediction}%")
         st.sidebar.caption("Model: eXtreme Gradient Boosting (XGBoost)") 
-        st.sidebar.caption("Data timeframes: 7/3/2023-11/6/2024")
-        st.sidebar.caption("Current accuracy: 86.37% (5.12%)")
+        st.sidebar.caption("Data timeframes: 7/3/2023-1/7/2025")
+        st.sidebar.caption("Current accuracy: 84.34% (9.43%)")
 
 
     elif selected_model == "Referral Calls":
         with st.container(border=True):
             st.text("1. Call Volumes")
-            calls_offered = st.number_input(label="Enter a call volume between 150 and 600", min_value=150, max_value=600, step=1, value=358)
+            calls_offered = st.number_input(label="Enter a call volume between 150 and 600", min_value=150, max_value=600, step=1, value=330)
         with st.container(border=True):
             st.text("2. Average Handle Time")
             aht_minutes = st.number_input(label="Enter AHT minutes between 4 and 7", min_value=4, max_value=7, step=1, value=4)
-            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=37)
+            aht_seconds = st.number_input(label="Enter AHT seconds between 0 and 59", min_value=0, max_value=59, step=1, value=26)
         with st.container(border=True):
             st.text("3. Not Ready Rate")
-            not_ready = st.number_input(label="Enter Not Ready Rate between 10 and 30", min_value=10.0, max_value=30.0, step=0.1, value=27.4)
+            not_ready = st.number_input(label="Enter Not Ready Rate between 10 and 30", min_value=10.0, max_value=30.0, step=0.1, value=26.5)
         with st.container(border=True):
             st.text("4. FTEs Logged In (Use Power BI CNC Call Metrics Staffing as a guide)")
-            ftes_logged_in = st.number_input(label="Enter FTEs between 2 and 8", min_value=2.0, max_value=8.0, step=0.1, value=5.2)
+            ftes_logged_in = st.number_input(label="Enter FTEs between 2 and 8", min_value=2.0, max_value=8.0, step=0.1, value=5.5)
         not_ready_con = not_ready/100
         aht = aht_minutes + (aht_seconds/60)
         sl_prediction_temp = predict_ref(calls_offered, aht, not_ready_con, ftes_logged_in)
@@ -195,8 +195,8 @@ def main():
             else:
                 st.subheader(f"{sl_prediction}%")
         st.sidebar.caption("Model: eXtreme Gradient Boosting (XGBoost)") 
-        st.sidebar.caption("Data timeframes: 10/3/2022-11/6/2024")
-        st.sidebar.caption("Current accuracy: 84.76% (4.80%)")        
+        st.sidebar.caption("Data timeframes: 10/3/2022-1/7/2025")
+        st.sidebar.caption("Current accuracy: 84.42% (4.37%)")        
    
 if __name__ == "__main__":
     main()
