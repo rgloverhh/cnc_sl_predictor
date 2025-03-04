@@ -72,12 +72,6 @@ def main():
     st.text("Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear below when you choose a department.")
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
-
-    def_calls = 1
-    def_aht_min = 5
-    def_aht_sec = 30
-    def_total_FTEs = 15.0
-    def_not_ready = 20.0
     
     selected_dept = st.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA CRT Team", "Referral Calls"])
     selected_model = st.radio("Select model:", ["Blended (Linear+XGB)", "Linear Regression"])
@@ -103,6 +97,7 @@ def main():
     not_ready_rate = st.sidebar.number_input(label="Not Ready Rate (%)", min_value = 1.0, max_value=50.0, step=0.1, value=def_not_ready)
     not_ready_con = not_ready_rate/100
     aht = aht_minutes + (aht_seconds/60)
+    st.sidebar.caption("Parameters defaulted to department daily averages")
 
     if selected_dept == "Primary Care" and selected_model == "Blended (Linear+XGB)":
         st.caption(blended_info)
