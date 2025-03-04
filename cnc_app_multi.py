@@ -11,7 +11,8 @@ def load_model(mdl):
     return model
 
 # items to change on a monthly basis
-model_info = "Model updated on March 3 2025 - default parameters are the daily averages from February 2025"
+model_info = "Model updated on 3/3/2025"
+sidebar_caption = "Parameters defaulted to department daily averages from February 2025"
 updated_end_date = "3/1/2025"
 
 pcp_calls = 3114
@@ -176,7 +177,7 @@ def main():
     not_ready_rate = st.sidebar.number_input(label="Not Ready Rate (%)", min_value = 1.0, max_value=50.0, step=0.1, value=def_not_ready)
     not_ready_con = not_ready_rate/100
     aht = aht_minutes + (aht_seconds/60)
-    st.sidebar.caption("Parameters defaulted to department daily averages")
+    st.sidebar.caption(sidebar_caption)
     st.sidebar.caption(sidebar_timeframes)
 
     if selected_model == "Blended (Linear+XGB)":
@@ -204,36 +205,6 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
-
-"""
-    if selected_dept == "Primary Care" and selected_model == "Blended (Linear+XGB)":
-        st.caption(blended_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
-        xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_xgb_model)
-        final_pred = blend_predict(lin_pred, xgb_pred, pcp_best_alpha)
-        final_pred *= 100
-        with st.container(border=True):
-            if final_pred <= 0:
-                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif final_pred >= 100:
-                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
-            else:
-                st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
-        st.sidebar.caption(pcp_timeframes)
-        
-    elif selected_dept == "Primary Care" and selected_model == "Linear Regression":
-        st.caption(linear_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
-        lin_pred *= 100
-        with st.container(border=True):
-            if lin_pred <= 0:
-                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif lin_pred >= 100:
-                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
-            else:
-                st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
-        st.sidebar.caption(pcp_timeframes)
-"""
 
 if __name__ == "__main__":
     main()
