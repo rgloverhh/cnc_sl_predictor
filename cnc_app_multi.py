@@ -73,18 +73,34 @@ def main():
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
 
+    def_calls = 1
+    def_aht_min = 5
+    def_aht_sec = 30
+    def_total_FTEs = 15.0
+    def_not_ready = 20.0
+    
     selected_dept = st.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA CRT Team", "Referral Calls"])
     selected_model = st.radio("Select model:", ["Blended (Linear+XGB)", "Linear Regression"])
 
-    default_calls = 1
-    default_aht_minutes = 5
-    default_aht_seconds = 30
+    if selected_dept == "Primary Care":
+        def_calls = 3114
+        def_aht_min = 5
+        def_aht_sec = 48
+        def_total_FTEs = 29.2
+        def_not_ready = 20.4
+    elif selected_dept == "Cancer Care":
+        def_calls = 878
+        def_aht_min = 5
+        def_aht_sec = 34
+        def_total_FTEs = 13.5
+        def_not_ready = 23.5
 
-    calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=8000, step=1, value=1000)
-    aht_minutes = st.sidebar.number_input(label="Average Handle Time (Min)", min_value=1, max_value=10, step=1, value=5)
-    aht_seconds = st.sidebar.number_input(label="Average Handle Time (Sec)", min_value=0, max_value=59, step=1, value=30)
-    total_FTEs = st.sidebar.number_input(label="FTEs Logged In", min_value=1.0, max_value=60.0, step=0.1, value=15.0)
-    not_ready_rate = st.sidebar.number_input(label="Not Ready Rate (%)", min_value = 1.0, max_value=50.0, step=0.1, value=20.0)
+
+    calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=8000, step=1, value=def_calls)
+    aht_minutes = st.sidebar.number_input(label="Average Handle Time (Min)", min_value=1, max_value=10, step=1, value=def_aht_min)
+    aht_seconds = st.sidebar.number_input(label="Average Handle Time (Sec)", min_value=0, max_value=59, step=1, value=def_aht_sec)
+    total_FTEs = st.sidebar.number_input(label="FTEs Logged In", min_value=1.0, max_value=60.0, step=0.1, value=def_total_FTEs)
+    not_ready_rate = st.sidebar.number_input(label="Not Ready Rate (%)", min_value = 1.0, max_value=50.0, step=0.1, value=def_not_ready)
     not_ready_con = not_ready_rate/100
     aht = aht_minutes + (aht_seconds/60)
 
