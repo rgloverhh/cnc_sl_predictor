@@ -11,9 +11,10 @@ def load_model(mdl):
     return model
 
 # items to change on a monthly basis
-model_info = "Model updated on March 3 2025 - default parameters are the daily averages from February 2024"
+model_info = "Model updated on March 3 2025 - default parameters are the daily averages from February 2025"
 
-pcp_baselines = "Primary Care Baseline Parameters\nCalls: 3114\nAHT: 5 min, 48 sec\nTotal_FTEs: 29.2\nNot Ready Rate: 20.4%"
+pcp_baselines = "Primary Care Baseline Parameters\nCalls:  3114\nAHT:  5 min, 48 sec\nTotal_FTEs:  29.2\nNot Ready Rate:  20.4%"
+cc_baselines = "Cancer Care Baseline Parameters\nCalls:  878\nAHT:  5 min, 34 sec\nTotal_FTEs:  13.5\nNot Ready Rate:  23.5%"
 
 pcp_timeframes = "Data Timeframes: 10/3/2022 - 3/1/2025"
 cc_timeframes = "Data Timeframes: 6/3/2022 - 3/1/2025"
@@ -90,7 +91,6 @@ def main():
         xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_xgb_model)
         final_pred = blend_predict(lin_pred, xgb_pred, pcp_best_alpha)
         final_pred *= 100
-        
         with st.container(border=True):
             if final_pred <= 0:
                 st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
@@ -101,12 +101,10 @@ def main():
         st.sidebar.text(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
         
-
     elif selected_dept == "Primary Care" and selected_model == "Linear Regression":
         st.caption(linear_info)
         lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
         lin_pred *= 100
-        
         with st.container(border=True):
             if lin_pred <= 0:
                 st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
@@ -117,6 +115,35 @@ def main():
         st.sidebar.text(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
 
+    elif selected_dept == "Cancer Care" and selected_model == "Blended (Linear+XGB)":
+        st.caption(blended_info)
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, cc_lin_model)
+        xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, cc_xgb_model)
+        final_pred = blend_predict(lin_pred, xgb_pred, cc_best_alpha)
+        final_pred *= 100
+        with st.container(border=True):
+            if final_pred <= 0:
+                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
+            elif final_pred >= 100:
+                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
+            else:
+                st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
+        st.sidebar.text(cc_baselines)
+        st.sidebar.caption(cc_timeframes)
+        
+    elif selected_dept == "Cancer Care" and selected_model == "Linear Regression":
+        st.caption(linear_info)
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, cc_lin_model)
+        lin_pred *= 100
+        with st.container(border=True):
+            if lin_pred <= 0:
+                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
+            elif lin_pred >= 100:
+                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
+            else:
+                st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
+        st.sidebar.text(cc_baselines)
+        st.sidebar.caption(cc_timeframes)
 
 if __name__ == "__main__":
     main()
