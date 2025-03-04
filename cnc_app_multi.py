@@ -124,30 +124,50 @@ def main():
         def_aht_sec = cc_sec
         def_total_FTEs = cc_fte
         def_not_ready = cc_nrr
+        chosen_lin = cc_lin_model
+        chosen_xgb = cc_xgb_model
+        chosen_alpha = cc_best_alpha
+        sidebar_timeframes = cc_timeframes
     elif selected_dept == "Heart Care":
         def_calls = heart_calls
         def_aht_min = heart_min
         def_aht_sec = heart_sec
         def_total_FTEs = heart_fte
         def_not_ready = heart_nrr
+        chosen_lin = heart_lin_model
+        chosen_xgb = heart_xgb_model
+        chosen_alpha = heart_best_alpha
+        sidebar_timeframes = heart_timeframes
     elif selected_dept == "MA Clinical Resource":
         def_calls = ma_calls
         def_aht_min = ma_min
         def_aht_sec = ma_sec
         def_total_FTEs = ma_fte
         def_not_ready = ma_nrr
+        chosen_lin = ma_lin_model
+        chosen_xgb = ma_xgb_model
+        chosen_alpha = ma_best_alpha
+        sidebar_timeframes = ma_timeframes
     elif selected_dept == "Referrals":
         def_calls = ref_calls
         def_aht_min = ref_min
         def_aht_sec = ref_sec
         def_total_FTEs = ref_fte
         def_not_ready = ref_nrr
+        chosen_lin = ref_lin_model
+        chosen_xgb = ref_xgb_model
+        chosen_alpha = ref_best_alpha
+        sidebar_timeframes = ref_timeframes
     elif selected_dept == "MyChart & Navigation":
         def_calls = mynav_calls
         def_aht_min = mynav_min
         def_aht_sec = mynav_sec
         def_total_FTEs = mynav_fte
         def_not_ready = mynav_nrr
+        chosen_lin = mychart_nav_lin_model
+        chosen_xgb = mychart_nav_xgb_model
+        chosen_alpha = mychart_nav_best_alpha
+        sidebar_timeframes = mychart_nav_timeframes
 
     calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=8000, step=1, value=def_calls)
     aht_minutes = st.sidebar.number_input(label="Average Handle Time (Min)", min_value=1, max_value=10, step=1, value=def_aht_min)
@@ -213,62 +233,6 @@ def main():
             else:
                 st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
         st.sidebar.caption(pcp_timeframes)
-
-    elif selected_dept == "Cancer Care" and selected_model == "Blended (Linear+XGB)":
-        st.caption(blended_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, cc_lin_model)
-        xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, cc_xgb_model)
-        final_pred = blend_predict(lin_pred, xgb_pred, cc_best_alpha)
-        final_pred *= 100
-        with st.container(border=True):
-            if final_pred <= 0:
-                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif final_pred >= 100:
-                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
-            else:
-                st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
-        st.sidebar.caption(cc_timeframes)
-        
-    elif selected_dept == "Cancer Care" and selected_model == "Linear Regression":
-        st.caption(linear_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, cc_lin_model)
-        lin_pred *= 100
-        with st.container(border=True):
-            if lin_pred <= 0:
-                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif lin_pred >= 100:
-                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
-            else:
-                st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
-        st.sidebar.caption(cc_timeframes)
-
-    elif selected_dept == "Heart Care" and selected_model == "Blended (Linear+XGB)":
-        st.caption(blended_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, heart_lin_model)
-        xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, heart_xgb_model)
-        final_pred = blend_predict(lin_pred, xgb_pred, heart_best_alpha)
-        final_pred *= 100
-        with st.container(border=True):
-            if final_pred <= 0:
-                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif final_pred >= 100:
-                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
-            else:
-                st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
-        st.sidebar.caption(heart_timeframes)
-        
-    elif selected_dept == "Cancer Care" and selected_model == "Linear Regression":
-        st.caption(linear_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, heart_lin_model)
-        lin_pred *= 100
-        with st.container(border=True):
-            if lin_pred <= 0:
-                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif lin_pred >= 100:
-                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
-            else:
-                st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
-        st.sidebar.caption(heart_timeframes)
 """
 
 if __name__ == "__main__":
