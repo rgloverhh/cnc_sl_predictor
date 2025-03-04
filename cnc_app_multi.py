@@ -98,7 +98,7 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
-        st.sidebar(pcp_baselines)
+        st.sidebar.text(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
         
 
@@ -114,7 +114,7 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
-        st.sidebar(pcp_baselines)
+        st.sidebar.text(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
 
 
