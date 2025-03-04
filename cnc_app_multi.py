@@ -12,21 +12,53 @@ def load_model(mdl):
 
 # items to change on a monthly basis
 model_info = "Model updated on March 3 2025 - default parameters are the daily averages from February 2025"
+updated_end_date = "3/1/2025"
 
-pcp_baselines = "Primary Care Baseline Parameters\nCalls:  3114\nAHT:  5 min, 48 sec\nTotal_FTEs:  29.2\nNot Ready Rate:  20.4%"
-cc_baselines = "Cancer Care Baseline Parameters\nCalls:  878\nAHT:  5 min, 34 sec\nTotal_FTEs:  13.5\nNot Ready Rate:  23.5%"
+pcp_calls = 3114
+pcp_min = 5
+pcp_sec = 48
+pcp_fte = 29.2
+pcp_nrr = 20.4
 
-pcp_timeframes = "Data Timeframes: 10/3/2022 - 3/1/2025"
-cc_timeframes = "Data Timeframes: 6/3/2022 - 3/1/2025"
-heart_timeframes = "Data Timeframes: 1/3/2022 - 3/1/2025"
-ma_timeframes = "Data Timeframes: 7/3/2023 - 3/1/2025"
-ref_timeframes = "Data Timeframes: 10/3/2022 - 3/1/2025"
-mychart_nav_timeframes = "Data Timeframes: 4/7/2024 - 3/1/2025"
+cc_calls = 878
+cc_min = 5
+cc_sec = 34
+cc_fte = 13.5
+cc_nrr = 23.5
 
+heart_calls = 1149
+heart_min = 5
+heart_sec = 46
+heart_fte = 17.7
+heart_nrr = 22.5
 
-# standardized text
+ma_calls = 598
+ma_min = 7
+ma_sec = 52
+ma_fte = 7.8
+ma_nrr = 26.6
+
+ref_calls = 398
+ref_min = 4
+ref_sec = 32
+ref_fte = 6.0
+ref_nrr = 32.4
+
+mynav_calls = 592
+mynav_min = 2
+mynav_sec = 55
+mynav_fte = 6.9
+mynav_nrr = 19.0
+
+# standardized text (does not typically need an update)
 blended_info = 'The blended models of XGBoost and Linear Regression offer the best accuracy, but may not be suitable for making predictions using parameters far outside of the norm'
 linear_info = 'The Linear Regression model is not as accurate as the blended model, but is better for making predictions with more "extreme" parameters'
+pcp_timeframes = f"Data Timeframes: 10/3/2022 - {updated_end_date}"
+cc_timeframes = f"Data Timeframes: 6/3/2022 - {updated_end_date}"
+heart_timeframes = f"Data Timeframes: 1/3/2022 - {updated_end_date}"
+ma_timeframes = f"Data Timeframes: 7/3/2023 - {updated_end_date}"
+ref_timeframes = f"Data Timeframes: 10/3/2022 - {updated_end_date}"
+mychart_nav_timeframes = f"Data Timeframes: 4/7/2024 - {updated_end_date}"
 zero_pred = 0.00
 hundred_pred = 100.00
 
@@ -73,22 +105,49 @@ def main():
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
     
-    selected_dept = st.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA CRT Team", "Referral Calls"])
+    selected_dept = st.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA Clinical Resource", "Referrals", "MyChart & Navigation"])
     selected_model = st.radio("Select model:", ["Blended (Linear+XGB)", "Linear Regression"])
 
     if selected_dept == "Primary Care":
-        def_calls = 3114
-        def_aht_min = 5
-        def_aht_sec = 48
-        def_total_FTEs = 29.2
-        def_not_ready = 20.4
+        def_calls = pcp_calls
+        def_aht_min = pcp_min
+        def_aht_sec = pcp_sec
+        def_total_FTEs = pcp_fte
+        def_not_ready = pcp_nrr
+        chosen_lin = pcp_lin_model
+        chosen_xgb = pcp_xgb_model
+        chosen_alpha = pcp_best_alpha
+        sidebar_timeframes = pcp_timeframes
     elif selected_dept == "Cancer Care":
-        def_calls = 878
-        def_aht_min = 5
-        def_aht_sec = 34
-        def_total_FTEs = 13.5
-        def_not_ready = 23.5
-
+        def_calls = cc_calls
+        def_aht_min = cc_min
+        def_aht_sec = cc_sec
+        def_total_FTEs = cc_fte
+        def_not_ready = cc_nrr
+    elif selected_dept == "Heart Care":
+        def_calls = heart_calls
+        def_aht_min = heart_min
+        def_aht_sec = heart_sec
+        def_total_FTEs = heart_fte
+        def_not_ready = heart_nrr
+    elif selected_dept == "MA Clinical Resource":
+        def_calls = ma_calls
+        def_aht_min = ma_min
+        def_aht_sec = ma_sec
+        def_total_FTEs = ma_fte
+        def_not_ready = ma_nrr
+    elif selected_dept == "Referrals":
+        def_calls = ref_calls
+        def_aht_min = ref_min
+        def_aht_sec = ref_sec
+        def_total_FTEs = ref_fte
+        def_not_ready = ref_nrr
+    elif selected_dept == "MyChart & Navigation":
+        def_calls = mynav_calls
+        def_aht_min = mynav_min
+        def_aht_sec = mynav_sec
+        def_total_FTEs = mynav_fte
+        def_not_ready = mynav_nrr
 
     calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=8000, step=1, value=def_calls)
     aht_minutes = st.sidebar.number_input(label="Average Handle Time (Min)", min_value=1, max_value=10, step=1, value=def_aht_min)
@@ -98,7 +157,35 @@ def main():
     not_ready_con = not_ready_rate/100
     aht = aht_minutes + (aht_seconds/60)
     st.sidebar.caption("Parameters defaulted to department daily averages")
+    st.sidebar.caption(sidebar_timeframes)
 
+    if selected_model == "Blended (Linear+XGB)":
+        st.caption(blended_info)
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, chosen_lin)
+        xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, chosen_xgb)
+        final_pred = blend_predict(lin_pred, xgb_pred, chosen_alpha)
+        final_pred *= 100
+        with st.container(border=True):
+            if final_pred <= 0:
+                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
+            elif final_pred >= 100:
+                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
+            else:
+                st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
+
+    elif selected_model == "Linear Regression":
+        st.caption(linear_info)
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, chosen_lin)
+        lin_pred *= 100
+        with st.container(border=True):
+            if lin_pred <= 0:
+                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
+            elif lin_pred >= 100:
+                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
+            else:
+                st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
+
+"""
     if selected_dept == "Primary Care" and selected_model == "Blended (Linear+XGB)":
         st.caption(blended_info)
         lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
@@ -112,7 +199,6 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
-        st.sidebar.text(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
         
     elif selected_dept == "Primary Care" and selected_model == "Linear Regression":
@@ -126,7 +212,6 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
-        st.sidebar.text(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
 
     elif selected_dept == "Cancer Care" and selected_model == "Blended (Linear+XGB)":
@@ -142,7 +227,6 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
-        st.sidebar.text(cc_baselines)
         st.sidebar.caption(cc_timeframes)
         
     elif selected_dept == "Cancer Care" and selected_model == "Linear Regression":
@@ -156,8 +240,36 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
-        st.sidebar.text(cc_baselines)
         st.sidebar.caption(cc_timeframes)
+
+    elif selected_dept == "Heart Care" and selected_model == "Blended (Linear+XGB)":
+        st.caption(blended_info)
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, heart_lin_model)
+        xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, heart_xgb_model)
+        final_pred = blend_predict(lin_pred, xgb_pred, heart_best_alpha)
+        final_pred *= 100
+        with st.container(border=True):
+            if final_pred <= 0:
+                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
+            elif final_pred >= 100:
+                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
+            else:
+                st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
+        st.sidebar.caption(heart_timeframes)
+        
+    elif selected_dept == "Cancer Care" and selected_model == "Linear Regression":
+        st.caption(linear_info)
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, heart_lin_model)
+        lin_pred *= 100
+        with st.container(border=True):
+            if lin_pred <= 0:
+                st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
+            elif lin_pred >= 100:
+                st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
+            else:
+                st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
+        st.sidebar.caption(heart_timeframes)
+"""
 
 if __name__ == "__main__":
     main()
