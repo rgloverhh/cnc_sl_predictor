@@ -24,8 +24,8 @@ mychart_nav_timeframes = "Data Timeframes: 4/7/2024 - 3/1/2025"
 
 
 # standardized text
-blended_info = 'Recommended: This model offers the best accuracy, but may not be suitable for making predictions using parameters far outside of the norm'
-linear_info = 'This model is not as accurate as the blended model, but is better for making predictions with more "extreme" parameters'
+blended_info = 'Recommended: The blended models of XGBoost and Linear Regression offers the best accuracy, but may not be suitable for making predictions using parameters far outside of the norm'
+linear_info = 'The Linear Regression model is not as accurate as the blended model, but is better for making predictions with more "extreme" parameters'
 zero_pred = 0.00
 hundred_pred = 100.00
 
@@ -68,7 +68,7 @@ def blend_predict(lin_pred, xgb_pred, best_alpha):
 # streamlit code
 def main():
     st.title("CNC Service Level Predictor")
-    st.text("Instructions:\nChoose the department and predictive model below and\nfill out the parameters on the left.\nCurrent baseline parameters will appear below when you choose a department.")
+    st.text("Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear below when you choose a department.")
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
     
@@ -85,7 +85,6 @@ def main():
 
 
     if selected_dept == "Primary Care" and selected_model == "Blended (Linear+XGB)":
-        st.caption(pcp_baselines)
         st.caption(blended_info)
         lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
         xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_xgb_model)
@@ -99,12 +98,13 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
+        st.sidebar(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
+        
 
     elif selected_dept == "Primary Care" and selected_model == "Linear Regression":
-        st.caption(pcp_baselines)
         st.caption(linear_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)*100
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
         lin_pred *= 100
         
         with st.container(border=True):
@@ -114,6 +114,7 @@ def main():
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
+        st.sidebar(pcp_baselines)
         st.sidebar.caption(pcp_timeframes)
 
 
