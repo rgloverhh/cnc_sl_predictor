@@ -27,7 +27,7 @@ mychart_nav_timeframes = "Data Timeframes: 4/7/2024 - 3/1/2025"
 blended_info = 'Recommended: This model offers the best accuracy, but may not be suitable for making predictions using parameters far outside of the norm'
 linear_info = 'This model is not as accurate as the blended model, but is better for making predictions with more "extreme" parameters'
 zero_pred = 0.00
-hundred_pred = 1.00
+hundred_pred = 100.00
 
 # predictive models
 pcp_lin_model = load_model('pcp_lin_model.pkl')
@@ -85,33 +85,35 @@ def main():
 
 
     if selected_dept == "Primary Care" and selected_model == "Blended (Linear+XGB)":
-        st.text(pcp_baselines)
-        st.text(blended_info)
+        st.caption(pcp_baselines)
+        st.caption(blended_info)
         lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
         xgb_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_xgb_model)
         final_pred = blend_predict(lin_pred, xgb_pred, pcp_best_alpha)
+        final_pred *= 100
         
         with st.container(border=True):
             if final_pred <= 0:
                 st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif final_pred >= 1:
+            elif final_pred >= 100:
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
                 st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
         st.sidebar.caption(pcp_timeframes)
 
-    if selected_dept == "Primary Care" and selected_model == "Linear Regression":
-        st.text(pcp_baselines)
-        st.text(linear_info)
-        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)
+    elif selected_dept == "Primary Care" and selected_model == "Linear Regression":
+        st.caption(pcp_baselines)
+        st.caption(linear_info)
+        lin_pred = sl_predict(calls_offered, aht, total_FTEs, not_ready_con, pcp_lin_model)*100
+        lin_pred *= 100
         
         with st.container(border=True):
             if lin_pred <= 0:
                 st.write(f"### 📈 Predicted Service Level: **{zero_pred:.2f}%**")
-            elif lin_pred >= 1:
+            elif lin_pred >= 100:
                 st.write(f"### 📈 Predicted Service Level: **{hundred_pred:.2f}%**")
             else:
-                st.write(f"### 📈 Predicted Service Level: **{final_pred:.2f}%**")
+                st.write(f"### 📈 Predicted Service Level: **{lin_pred:.2f}%**")
         st.sidebar.caption(pcp_timeframes)
 
 
