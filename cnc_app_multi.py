@@ -10,46 +10,24 @@ def load_model(mdl):
         model = pickle.load(pickled_mod)
     return model
 
+class CNCDepartment:
+    def __init__(self, calls, min, sec, fte, nrr):
+        self.calls = calls
+        self.min = min
+        self.sec = sec
+        self.fte = fte
+        self.nrr = nrr
+
 # items to change on a monthly basis
 model_info = "Model updated on 3/3/2025"
 sidebar_caption = "Parameters defaulted to department daily averages from February 2025"
 updated_end_date = "3/1/2025"
-
-pcp_calls = 3114
-pcp_min = 5
-pcp_sec = 48
-pcp_fte = 29.2
-pcp_nrr = 20.4
-
-cc_calls = 878
-cc_min = 5
-cc_sec = 34
-cc_fte = 13.5
-cc_nrr = 23.5
-
-heart_calls = 1149
-heart_min = 5
-heart_sec = 46
-heart_fte = 17.7
-heart_nrr = 22.5
-
-ma_calls = 598
-ma_min = 7
-ma_sec = 52
-ma_fte = 7.8
-ma_nrr = 26.6
-
-ref_calls = 398
-ref_min = 4
-ref_sec = 32
-ref_fte = 6.0
-ref_nrr = 32.4
-
-mynav_calls = 592
-mynav_min = 2
-mynav_sec = 55
-mynav_fte = 6.9
-mynav_nrr = 19.0
+primary_care = CNCDepartment(calls=3114, min=5, sec=48, fte=29.2, nrr=20.4)
+cancer_care = CNCDepartment(calls=878, min=5, sec=34, fte=13.5, nrr=23.5)
+heart_care = CNCDepartment(calls=1149, min=5, sec=46, fte=17.7, nrr=22.5)
+ma_crt = CNCDepartment(calls=598, min=7, sec=52, fte=7.8, nrr=26.6)
+ref_phone = CNCDepartment(calls=398, min=4, sec=32, fte=6.0, nrr=32.4)
+mychart_nav = CNCDepartment(calls=592, min=2, sec=55, fte=6.9, nrr=19.0)
 
 # standardized text (does not typically need an update)
 blended_info = 'The blended models of XGBoost and Linear Regression offer the best accuracy, but may not be suitable for making predictions using parameters far outside of the norm'
@@ -110,61 +88,61 @@ def main():
     selected_model = st.radio("Select model:", ["Blended (Linear+XGB)", "Linear Regression"])
 
     if selected_dept == "Primary Care":
-        def_calls = pcp_calls
-        def_aht_min = pcp_min
-        def_aht_sec = pcp_sec
-        def_total_FTEs = pcp_fte
-        def_not_ready = pcp_nrr
+        def_calls = primary_care.calls
+        def_aht_min = primary_care.min
+        def_aht_sec = primary_care.sec
+        def_total_FTEs = primary_care.fte
+        def_not_ready = primary_care.nrr
         chosen_lin = pcp_lin_model
         chosen_xgb = pcp_xgb_model
         chosen_alpha = pcp_best_alpha
         sidebar_timeframes = pcp_timeframes
     elif selected_dept == "Cancer Care":
-        def_calls = cc_calls
-        def_aht_min = cc_min
-        def_aht_sec = cc_sec
-        def_total_FTEs = cc_fte
-        def_not_ready = cc_nrr
+        def_calls = cancer_care.calls
+        def_aht_min = cancer_care.min
+        def_aht_sec = cancer_care.sec
+        def_total_FTEs = cancer_care.fte
+        def_not_ready = cancer_care.nrr
         chosen_lin = cc_lin_model
         chosen_xgb = cc_xgb_model
         chosen_alpha = cc_best_alpha
         sidebar_timeframes = cc_timeframes
     elif selected_dept == "Heart Care":
-        def_calls = heart_calls
-        def_aht_min = heart_min
-        def_aht_sec = heart_sec
-        def_total_FTEs = heart_fte
-        def_not_ready = heart_nrr
+        def_calls = heart_care.calls
+        def_aht_min = heart_care.min
+        def_aht_sec = heart_care.sec
+        def_total_FTEs = heart_care.fte
+        def_not_ready = heart_care.nrr
         chosen_lin = heart_lin_model
         chosen_xgb = heart_xgb_model
         chosen_alpha = heart_best_alpha
         sidebar_timeframes = heart_timeframes
     elif selected_dept == "MA Clinical Resource":
-        def_calls = ma_calls
-        def_aht_min = ma_min
-        def_aht_sec = ma_sec
-        def_total_FTEs = ma_fte
-        def_not_ready = ma_nrr
+        def_calls = ma_crt.calls
+        def_aht_min = ma_crt.min
+        def_aht_sec = ma_crt.sec
+        def_total_FTEs = ma_crt.fte
+        def_not_ready = ma_crt.nrr
         chosen_lin = ma_lin_model
         chosen_xgb = ma_xgb_model
         chosen_alpha = ma_best_alpha
         sidebar_timeframes = ma_timeframes
     elif selected_dept == "Referrals":
-        def_calls = ref_calls
-        def_aht_min = ref_min
-        def_aht_sec = ref_sec
-        def_total_FTEs = ref_fte
-        def_not_ready = ref_nrr
+        def_calls = ref_phone.calls
+        def_aht_min = ref_phone.min
+        def_aht_sec = ref_phone.sec
+        def_total_FTEs = ref_phone.fte
+        def_not_ready = ref_phone.nrr
         chosen_lin = ref_lin_model
         chosen_xgb = ref_xgb_model
         chosen_alpha = ref_best_alpha
         sidebar_timeframes = ref_timeframes
     elif selected_dept == "MyChart & Navigation":
-        def_calls = mynav_calls
-        def_aht_min = mynav_min
-        def_aht_sec = mynav_sec
-        def_total_FTEs = mynav_fte
-        def_not_ready = mynav_nrr
+        def_calls = mychart_nav.calls
+        def_aht_min = mychart_nav.min
+        def_aht_sec = mychart_nav.sec
+        def_total_FTEs = mychart_nav.fte
+        def_not_ready = mychart_nav.nrr
         chosen_lin = mychart_nav_lin_model
         chosen_xgb = mychart_nav_xgb_model
         chosen_alpha = mychart_nav_best_alpha
