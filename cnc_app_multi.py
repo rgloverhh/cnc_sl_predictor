@@ -47,8 +47,8 @@ sidebar_caption = "Parameters defaulted to department daily averages from April 
 updated_end_date = "5/5/2025"
 
 # standardized text (does not typically need an update)
-blended_info = 'Use this for making predictions '
-linear_info = 'The Linear Regression model is not as accurate as the blended model, but is better for making predictions with more "extreme" parameters'
+blended_info = 'The blended model is best for making predictions using current state data (i.e. what is currently happening)'
+linear_info = 'The linear regression model is best for making predictions for future states (i.e. what happens to the SL when 5 FTEs are added)'
 pcp_timeframes = f"Data Timeframes: 10/3/2022 - {updated_end_date}"
 cc_timeframes = f"Data Timeframes: 6/3/2022 - {updated_end_date}"
 heart_timeframes = f"Data Timeframes: 1/3/2022 - {updated_end_date}"
