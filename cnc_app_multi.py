@@ -42,12 +42,12 @@ chosen_alpha = None
 sidebar_timeframes = None
 
 # UPDATE items on a monthly basis
-model_info = "Model updated on 3/3/2025"
-sidebar_caption = "Parameters defaulted to department daily averages from February 2025"
-updated_end_date = "3/1/2025"
+model_info = "Model updated on 5/6/2025"
+sidebar_caption = "Parameters defaulted to department daily averages from April 2025"
+updated_end_date = "5/5/2025"
 
 # standardized text (does not typically need an update)
-blended_info = 'The blended models of XGBoost and Linear Regression offer the best accuracy, but may not be suitable for making predictions using parameters far outside of the norm'
+blended_info = 'Use this for making predictions '
 linear_info = 'The Linear Regression model is not as accurate as the blended model, but is better for making predictions with more "extreme" parameters'
 pcp_timeframes = f"Data Timeframes: 10/3/2022 - {updated_end_date}"
 cc_timeframes = f"Data Timeframes: 6/3/2022 - {updated_end_date}"
@@ -72,12 +72,12 @@ class CNCDepartment:
         self.tf = tf
 
 # UPDATE class parameters on a monthly basis
-primary_care = CNCDepartment(calls=3114, min=5, sec=48, fte=29.2, nrr=20.4, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
-cancer_care = CNCDepartment(calls=878, min=5, sec=34, fte=13.5, nrr=23.5, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
-heart_care = CNCDepartment(calls=1149, min=5, sec=46, fte=17.7, nrr=22.5, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
-ma_crt = CNCDepartment(calls=598, min=7, sec=52, fte=7.8, nrr=26.6, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
-ref_phone = CNCDepartment(calls=398, min=4, sec=32, fte=6.0, nrr=32.4, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
-mychart_nav = CNCDepartment(calls=592, min=2, sec=55, fte=6.9, nrr=19.0, lin=mychart_nav_lin_model, xg=mychart_nav_xgb_model, alpha=mychart_nav_best_alpha, tf=mychart_nav_timeframes)
+primary_care = CNCDepartment(calls=2767, min=5, sec=43, fte=30.4, nrr=21.9, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
+cancer_care = CNCDepartment(calls=857, min=5, sec=23, fte=14.1, nrr=20.5, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
+heart_care = CNCDepartment(calls=1111, min=5, sec=24, fte=16.5, nrr=22.6, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
+ma_crt = CNCDepartment(calls=569, min=7, sec=20, fte=9.4, nrr=30.5, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
+ref_phone = CNCDepartment(calls=370, min=4, sec=13, fte=6.7, nrr=41.5, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
+mychart_nav = CNCDepartment(calls=584, min=2, sec=48, fte=5.4, nrr=23.3, lin=mychart_nav_lin_model, xg=mychart_nav_xgb_model, alpha=mychart_nav_best_alpha, tf=mychart_nav_timeframes)
 
 # functions
 def preprocess_input(calls, avg_handle_time, total_FTEs, not_ready_rate):
@@ -110,7 +110,7 @@ def default_values(cnc_class):
 # streamlit code
 def main():
     st.title("CNC Service Level Predictor")
-    st.text("Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear below when you choose a department.")
+    st.text("Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear in the input boxes on the left when you choose a department.")
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
     
