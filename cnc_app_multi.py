@@ -26,9 +26,6 @@ ma_best_alpha = load_model('ma_best_alpha.pkl')
 ref_lin_model = load_model('ref_lin_model.pkl')
 ref_xgb_model = load_model('ref_xgb_model.pkl')
 ref_best_alpha = load_model('ref_best_alpha.pkl')
-mychart_nav_lin_model = load_model('mychart_nav_lin_model.pkl')
-mychart_nav_xgb_model = load_model('mychart_nav_xgb_model.pkl')
-mychart_nav_best_alpha = load_model('mychart_nav_best_alpha.pkl')
 gastro_lin_model = load_model('gastro_lin_model.pkl')
 gastro_xgb_model = load_model('gastro_xgb_model.pkl')
 gastro_best_alpha = load_model('gastro_best_alpha.pkl')
@@ -45,9 +42,9 @@ chosen_alpha = None
 sidebar_timeframes = None
 
 # UPDATE items on a monthly basis
-model_info = "Model updated on 6/11/2025"
+model_info = "Model updated on 7/7/2025"
 sidebar_caption = "Parameters defaulted to department daily averages from May 2025"
-updated_end_date = "6/10/2025"
+updated_end_date = "7/3/2025"
 
 # standardized text (does not typically need an update)
 blended_info = 'The blended model is best for making predictions using current state data (i.e. what is currently happening)'
@@ -57,7 +54,6 @@ cc_timeframes = f"Data Timeframes: 6/3/2022 - {updated_end_date}"
 heart_timeframes = f"Data Timeframes: 1/3/2022 - {updated_end_date}"
 ma_timeframes = f"Data Timeframes: 7/3/2023 - {updated_end_date}"
 ref_timeframes = f"Data Timeframes: 10/3/2022 - {updated_end_date}"
-mychart_nav_timeframes = f"Data Timeframes: 4/7/2024 - {updated_end_date}"
 gastro_timeframes = f"Data Timeframes: 4/22/2025 - {updated_end_date}"
 zero_pred = 0.00
 hundred_pred = 100.00
@@ -76,13 +72,12 @@ class CNCDepartment:
         self.tf = tf
 
 # UPDATE class parameters on a monthly basis
-primary_care = CNCDepartment(calls=2651, min=5, sec=32, fte=35.1, nrr=20.8, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
-cancer_care = CNCDepartment(calls=889, min=5, sec=30, fte=14.4, nrr=23.1, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
-heart_care = CNCDepartment(calls=1097, min=5, sec=20, fte=16.7, nrr=22.3, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
-ma_crt = CNCDepartment(calls=581, min=7, sec=5, fte=11.8, nrr=27.7, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
-ref_phone = CNCDepartment(calls=350, min=4, sec=14, fte=6.5, nrr=40.9, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
-mychart_nav = CNCDepartment(calls=628, min=3, sec=9, fte=3.5, nrr=20.1, lin=mychart_nav_lin_model, xg=mychart_nav_xgb_model, alpha=mychart_nav_best_alpha, tf=mychart_nav_timeframes)
-gastro = CNCDepartment(calls=749, min=6, sec=41, fte=9.5, nrr=22.8, lin=gastro_lin_model, xg=gastro_xgb_model, alpha=gastro_best_alpha, tf=gastro_timeframes)
+primary_care = CNCDepartment(calls=2517, min=5, sec=25, fte=37.5, nrr=22.1, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
+cancer_care = CNCDepartment(calls=845, min=5, sec=40, fte=15.9, nrr=23.1, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
+heart_care = CNCDepartment(calls=1087, min=5, sec=34, fte=15.3, nrr=22.7, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
+ma_crt = CNCDepartment(calls=637, min=7, sec=8, fte=13.1, nrr=31.6, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
+ref_phone = CNCDepartment(calls=341, min=4, sec=17, fte=6.1, nrr=37.7, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
+gastro = CNCDepartment(calls=733, min=6, sec=35, fte=10.3, nrr=21.7, lin=gastro_lin_model, xg=gastro_xgb_model, alpha=gastro_best_alpha, tf=gastro_timeframes)
 
 # functions
 def preprocess_input(calls, avg_handle_time, total_FTEs, not_ready_rate):
@@ -115,11 +110,11 @@ def default_values(cnc_class):
 # streamlit code
 def main():
     st.title("CNC Service Level Predictor")
-    st.text("Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear in the input boxes on the left when you choose a department.")
+    st.text('Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear in the input boxes on the left when you choose a department.\n(Hint: if the Average Handle Time is 5 min and 30 seconds, put the 5 in the "min" box and the 30 in the "sec" box')
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
     
-    selected_dept = st.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA Clinical Resource", "Referrals", "MyChart & Navigation", "Gastroenterology"])
+    selected_dept = st.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA Clinical Resource", "Referrals", "Gastroenterology"])
     selected_model = st.radio("Select model:", ["Blended (Linear+XGB)", "Linear Regression"])
 
     if selected_dept == "Primary Care":
@@ -132,8 +127,6 @@ def main():
         default_values(ma_crt)
     elif selected_dept == "Referrals":
         default_values(ref_phone)
-    elif selected_dept == "MyChart & Navigation":
-        default_values(mychart_nav)
     elif selected_dept == "Gastroenterology":
         default_values(gastro)
 
