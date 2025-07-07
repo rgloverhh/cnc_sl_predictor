@@ -110,7 +110,7 @@ def default_values(cnc_class):
 # streamlit code
 def main():
     st.title("CNC Service Level Predictor")
-    st.text('Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear in the input boxes on the left when you choose a department.\n(Hint: if the Average Handle Time is 5 min and 30 seconds, put the 5 in the "min" box and the 30 in the "sec" box')
+    st.text('Instructions:\nChoose the department and predictive model below and fill out the parameters on the left.\nCurrent baseline parameters will appear in the input boxes on the left when you choose a department.\n(Hint: if the Average Handle Time is 5 min and 30 seconds, put the 5 in the "min" box and the 30 in the "sec" box)'
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
     
