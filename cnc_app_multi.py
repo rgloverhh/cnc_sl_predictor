@@ -43,7 +43,7 @@ sidebar_timeframes = None
 
 # UPDATE items on a monthly basis
 model_info = "Model updated on 7/7/2025"
-sidebar_caption = "Parameters defaulted to department daily averages from May 2025"
+sidebar_caption = "Parameters defaulted to department daily averages from June 2025"
 updated_end_date = "7/3/2025"
 
 # standardized text (does not typically need an update)
