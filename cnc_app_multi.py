@@ -42,9 +42,9 @@ chosen_alpha = None
 sidebar_timeframes = None
 
 # UPDATE items on a monthly basis
-model_info = "Model updated on 7/7/2025"
-sidebar_caption = "Parameters defaulted to department daily averages from June 2025"
-updated_end_date = "7/3/2025"
+model_info = "Model updated on 8/11/2025"
+sidebar_caption = "Parameters defaulted to department daily averages from July 2025"
+updated_end_date = "8/8/2025"
 
 # standardized text (does not typically need an update)
 blended_info = 'The blended model is best for making predictions using current state data (i.e. what is currently happening)'
@@ -72,12 +72,12 @@ class CNCDepartment:
         self.tf = tf
 
 # UPDATE class parameters on a monthly basis
-primary_care = CNCDepartment(calls=2517, min=5, sec=25, fte=37.5, nrr=22.1, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
-cancer_care = CNCDepartment(calls=845, min=5, sec=40, fte=15.9, nrr=23.1, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
-heart_care = CNCDepartment(calls=1087, min=5, sec=34, fte=15.3, nrr=22.7, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
-ma_crt = CNCDepartment(calls=637, min=7, sec=8, fte=13.1, nrr=31.6, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
-ref_phone = CNCDepartment(calls=341, min=4, sec=17, fte=6.1, nrr=37.7, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
-gastro = CNCDepartment(calls=733, min=6, sec=35, fte=10.3, nrr=21.7, lin=gastro_lin_model, xg=gastro_xgb_model, alpha=gastro_best_alpha, tf=gastro_timeframes)
+primary_care = CNCDepartment(calls=2828, min=5, sec=8, fte=34.4, nrr=21.5, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
+cancer_care = CNCDepartment(calls=842, min=5, sec=47, fte=15.3, nrr=22.7, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
+heart_care = CNCDepartment(calls=1099, min=5, sec=39, fte=15.4, nrr=21.1, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
+ma_crt = CNCDepartment(calls=630, min=6, sec=57, fte=12.4, nrr=31.6, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
+ref_phone = CNCDepartment(calls=361, min=4, sec=22, fte=6.0, nrr=42.8, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
+gastro = CNCDepartment(calls=794, min=6, sec=38, fte=10.0, nrr=26.4, lin=gastro_lin_model, xg=gastro_xgb_model, alpha=gastro_best_alpha, tf=gastro_timeframes)
 
 # functions
 def preprocess_input(calls, avg_handle_time, total_FTEs, not_ready_rate):
@@ -114,10 +114,10 @@ def main():
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
     
-    selected_dept = st.radio("Select department:", ["Primary Care", "Cancer Care", "Heart Care", "MA Clinical Resource", "Referrals", "Gastroenterology"])
+    selected_dept = st.radio("Select department:", ["Primary Care/Navigation", "Cancer Care", "Heart Care", "MA Clinical Resource", "Referrals", "Gastroenterology"])
     selected_model = st.radio("Select model:", ["Blended (Linear+XGB)", "Linear Regression"])
 
-    if selected_dept == "Primary Care":
+    if selected_dept == "Primary Care/Navigation":
         default_values(primary_care)
     elif selected_dept == "Cancer Care":
        default_values(cancer_care)
