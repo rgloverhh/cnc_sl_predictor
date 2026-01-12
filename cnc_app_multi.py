@@ -42,9 +42,9 @@ chosen_alpha = None
 sidebar_timeframes = None
 
 # UPDATE items on a monthly basis
-model_info = "Model updated on 9/16/2025"
-sidebar_caption = "Parameters defaulted to department daily averages from August 2025"
-updated_end_date = "9/15/2025"
+model_info = "Model* updated on 1/12/2026  *Just Primary Care - other specialties will be updated in the near future"
+sidebar_caption = "Parameters defaulted to department daily averages from Dec 1 2025 - Jan 9 2026"
+updated_end_date = "1/12/2026"
 
 # standardized text (does not typically need an update)
 blended_info = 'The blended model is best for making predictions using current state data (i.e. what is currently happening)'
@@ -72,7 +72,7 @@ class CNCDepartment:
         self.tf = tf
 
 # UPDATE class parameters on a monthly basis
-primary_care = CNCDepartment(calls=3125, min=5, sec=10, fte=32.1, nrr=20.7, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
+primary_care = CNCDepartment(calls=4351, min=5, sec=25, fte=47.9, nrr=17.5, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
 cancer_care = CNCDepartment(calls=929, min=6, sec=20, fte=15.6, nrr=21.3, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
 heart_care = CNCDepartment(calls=1285, min=5, sec=41, fte=15.4, nrr=21.1, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
 ma_crt = CNCDepartment(calls=633, min=6, sec=42, fte=12.7, nrr=30.4, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
