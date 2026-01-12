@@ -130,11 +130,11 @@ def main():
     elif selected_dept == "Gastroenterology":
         default_values(gastro)
 
-    calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=8000, step=1, value=def_calls)
+    calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=10000, step=1, value=def_calls)
     aht_minutes = st.sidebar.number_input(label="Average Handle Time (Min)", min_value=1, max_value=10, step=1, value=def_aht_min)
     aht_seconds = st.sidebar.number_input(label="Average Handle Time (Sec)", min_value=0, max_value=59, step=1, value=def_aht_sec)
-    total_FTEs = st.sidebar.number_input(label="FTEs Logged In", min_value=1.0, max_value=60.0, step=0.1, value=def_total_FTEs)
-    not_ready_rate = st.sidebar.number_input(label="Not Ready Rate (%)", min_value = 1.0, max_value=50.0, step=0.1, value=def_not_ready)
+    total_FTEs = st.sidebar.number_input(label="FTEs Logged In", min_value=1.0, max_value=100.0, step=1.0, value=def_total_FTEs)
+    not_ready_rate = st.sidebar.number_input(label="Not Ready Rate (%)", min_value = 1.0, max_value=50.0, step=1.0, value=def_not_ready)
     not_ready_con = not_ready_rate/100
     aht = aht_minutes + (aht_seconds/60)
     st.sidebar.caption(sidebar_caption)
