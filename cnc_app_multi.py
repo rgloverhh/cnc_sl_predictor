@@ -14,9 +14,9 @@ def load_model(mdl):
 pcp_lin_model = load_model('pcp_lin_model.pkl')
 pcp_xgb_model = load_model('pcp_xgb_model.pkl')
 pcp_best_alpha = load_model('pcp_best_alpha.pkl')
-cc_lin_model = load_model('cc_lin_model.pkl')
-cc_xgb_model = load_model('cc_xgb_model.pkl')
-cc_best_alpha = load_model('cc_best_alpha.pkl')
+cancer_lin_model = load_model('cancer_lin_model.pkl')
+cancer_xgb_model = load_model('cancer_xgb_model.pkl')
+cancer_best_alpha = load_model('cancer_best_alpha.pkl')
 heart_lin_model = load_model('heart_lin_model.pkl')
 heart_xgb_model = load_model('heart_xgb_model.pkl')
 heart_best_alpha = load_model('heart_best_alpha.pkl')
@@ -26,9 +26,12 @@ ma_best_alpha = load_model('ma_best_alpha.pkl')
 ref_lin_model = load_model('ref_lin_model.pkl')
 ref_xgb_model = load_model('ref_xgb_model.pkl')
 ref_best_alpha = load_model('ref_best_alpha.pkl')
-gastro_lin_model = load_model('gastro_lin_model.pkl')
-gastro_xgb_model = load_model('gastro_xgb_model.pkl')
-gastro_best_alpha = load_model('gastro_best_alpha.pkl')
+pain_lin_model = load_model('pain_lin_model.pkl')
+pain_xgb_model = load_model('pain_xgb_model.pkl')
+pain_best_alpha = load_model('pain_best_alpha.pkl')
+neuro_opt_lin_model = load_model('neuro_opt_lin_model.pkl')
+neuro_opt_xgb_model = load_model('neuro_opt_xgb_model.pkl')
+neuro_opt_best_alpha = load_model('neuro_opt_best_alpha.pkl')
 
 # initialize default parameter values
 def_calls = None
@@ -42,19 +45,20 @@ chosen_alpha = None
 sidebar_timeframes = None
 
 # UPDATE items on a monthly basis
-model_info = "Model* updated on 1/12/2026  *Just Primary Care - other specialties will be updated in the near future"
-sidebar_caption = "Parameters defaulted to department daily averages from Dec 1 2025 - Jan 9 2026"
-updated_end_date = "1/12/2026"
+model_info = "Model updated on 1/19/2026"
+sidebar_caption = "Parameters defaulted to department daily averages from Dec 15 2025 - Jan 16 2026"
+updated_end_date = "1/16/2026"
 
 # standardized text (does not typically need an update)
 blended_info = 'The blended model is best for making predictions using current state data (i.e. what is currently happening)'
 linear_info = 'The linear regression model is best for making predictions for future states (i.e. what happens to the SL when 5 FTEs are added)'
-pcp_timeframes = f"Data Timeframes: 10/3/2022 - {updated_end_date}"
-cc_timeframes = f"Data Timeframes: 6/3/2022 - {updated_end_date}"
-heart_timeframes = f"Data Timeframes: 1/3/2022 - {updated_end_date}"
-ma_timeframes = f"Data Timeframes: 7/3/2023 - {updated_end_date}"
-ref_timeframes = f"Data Timeframes: 10/3/2022 - {updated_end_date}"
-gastro_timeframes = f"Data Timeframes: 4/22/2025 - {updated_end_date}"
+pcp_timeframes = f"Data Timeframes: 10/15/2025 - {updated_end_date}"
+cancer_timeframes = f"Data Timeframes: 10/15/2025 - {updated_end_date}"
+heart_timeframes = f"Data Timeframes: 10/15/2025 - {updated_end_date}"
+ma_timeframes = f"Data Timeframes: 10/15/2025 - {updated_end_date}"
+ref_timeframes = f"Data Timeframes: 10/15/2025 - {updated_end_date}"
+pain_timeframes = f"Data Timeframes: 10/15/2025 - {updated_end_date}"
+neuro_opt_timeframes = f"Data Timeframes: 10/15/2025 - {updated_end_date}"
 zero_pred = 0.00
 hundred_pred = 100.00
 
@@ -72,12 +76,13 @@ class CNCDepartment:
         self.tf = tf
 
 # UPDATE class parameters on a monthly basis
-primary_care = CNCDepartment(calls=4351, min=5, sec=25, fte=47.9, nrr=17.5, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
-cancer_care = CNCDepartment(calls=929, min=6, sec=20, fte=15.6, nrr=21.3, lin=cc_lin_model, xg=cc_xgb_model, alpha=cc_best_alpha, tf=cc_timeframes)
-heart_care = CNCDepartment(calls=1285, min=5, sec=41, fte=15.4, nrr=21.1, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
-ma_crt = CNCDepartment(calls=633, min=6, sec=42, fte=12.7, nrr=30.4, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
-ref_phone = CNCDepartment(calls=381, min=4, sec=13, fte=6.6, nrr=52.4, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
-gastro = CNCDepartment(calls=673, min=5, sec=52, fte=12.9, nrr=20.7, lin=gastro_lin_model, xg=gastro_xgb_model, alpha=gastro_best_alpha, tf=gastro_timeframes)
+primary_care = CNCDepartment(calls=5616, min=5, sec=56, fte=49.4, nrr=16.7, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
+cancer_care = CNCDepartment(calls=837, min=5, sec=24, fte=18.0, nrr=15.7, lin=cancer_lin_model, xg=cancer_xgb_model, alpha=cancer_best_alpha, tf=cancer_timeframes)
+heart_care = CNCDepartment(calls=1114, min=5, sec=16, fte=16.9, nrr=17.6, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
+ma_crt = CNCDepartment(calls=1032, min=6, sec=11, fte=11.5, nrr=31.5, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
+ref_phone = CNCDepartment(calls=386, min=5, sec=0, fte=6.3, nrr=35.7, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
+pain = CNCDepartment(calls=111, min=4, sec=3, fte=6.8, nrr=18.8, lin=pain_lin_model, xg=pain_xgb_model, alpha=pain_best_alpha, tf=pain_timeframes)
+neuro_opt = CNCDepartment(calls=501, min=4, sec=31, fte=10.2, nrr=18.8, lin=neuro_opt_lin_model, xg=neuro_opt_xgb_model, alpha=neuro_opt_best_alpha, tf=neuro_opt_timeframes)
 
 # functions
 def preprocess_input(calls, avg_handle_time, total_FTEs, not_ready_rate):
@@ -114,7 +119,7 @@ def main():
     st.caption(model_info)
     st.sidebar.header("Input Parameters")
     
-    selected_dept = st.radio("Select department:", ["Primary Care/Navigation", "Cancer Care", "Heart Care", "MA Clinical Resource", "Referrals", "Gastroenterology"])
+    selected_dept = st.radio("Select department:", ["Primary Care/Navigation", "Cancer Care", "Heart Care", "MA Clinical Resource", "Referral Calls", "Pain Care", "Neurology/Outpatient Therapy"])
     selected_model = st.radio("Select model:", ["Blended (Linear+XGB)", "Linear Regression"])
 
     if selected_dept == "Primary Care/Navigation":
@@ -125,10 +130,12 @@ def main():
         default_values(heart_care)
     elif selected_dept == "MA Clinical Resource":
         default_values(ma_crt)
-    elif selected_dept == "Referrals":
+    elif selected_dept == "Referral Calls":
         default_values(ref_phone)
-    elif selected_dept == "Gastroenterology":
-        default_values(gastro)
+    elif selected_dept == "Pain Care":
+        default_values(pain)
+    elif selected_dept == "Neurology/Outpatient Therapy":
+        default_values(neuro/opt)
 
     calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=10000, step=1, value=def_calls)
     aht_minutes = st.sidebar.number_input(label="Average Handle Time (Min)", min_value=1, max_value=10, step=1, value=def_aht_min)
