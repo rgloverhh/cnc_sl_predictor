@@ -135,7 +135,7 @@ def main():
     elif selected_dept == "Pain Care":
         default_values(pain)
     elif selected_dept == "Neurology/Outpatient Therapy":
-        default_values(neuro/opt)
+        default_values(neuro_opt)
 
     calls_offered = st.sidebar.number_input(label="Number of Calls", min_value=1, max_value=10000, step=1, value=def_calls)
     aht_minutes = st.sidebar.number_input(label="Average Handle Time (Min)", min_value=1, max_value=10, step=1, value=def_aht_min)
