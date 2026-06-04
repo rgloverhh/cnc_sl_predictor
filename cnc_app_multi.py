@@ -45,9 +45,9 @@ chosen_alpha = None
 sidebar_timeframes = None
 
 # UPDATE items on a monthly basis
-model_info = "Model updated on 5/7/2026"
-sidebar_caption = "Parameters defaulted to department daily averages from Apr 1 2026 - Apr 30 2026"
-updated_end_date = "4/30/2026"
+model_info = "Model updated on 6/4/2026"
+sidebar_caption = "Parameters defaulted to department daily averages from May 1 2026 - May 31 2026"
+updated_end_date = "6/3/2026"
 
 # standardized text (does not typically need an update)
 blended_info = 'The blended model is best for making predictions using current state data (i.e. what is currently happening)'
@@ -76,13 +76,13 @@ class CNCDepartment:
         self.tf = tf
 
 # UPDATE class parameters on a monthly basis
-primary_care = CNCDepartment(calls=4307, min=5, sec=46, fte=64.5, nrr=18.5, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
-cancer_care = CNCDepartment(calls=888, min=5, sec=27, fte=17.1, nrr=15.8, lin=cancer_lin_model, xg=cancer_xgb_model, alpha=cancer_best_alpha, tf=cancer_timeframes)
-heart_care = CNCDepartment(calls=1131, min=5, sec=24, fte=17.8, nrr=17.0, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
-ma_crt = CNCDepartment(calls=940, min=6, sec=45, fte=17.8, nrr=23.8, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
-ref_phone = CNCDepartment(calls=662, min=5, sec=27, fte=6.7, nrr=24.0, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
-pain = CNCDepartment(calls=133, min=3, sec=52, fte=4.6, nrr=19.3, lin=pain_lin_model, xg=pain_xgb_model, alpha=pain_best_alpha, tf=pain_timeframes)
-neuro_opt = CNCDepartment(calls=595, min=4, sec=21, fte=11.2, nrr=18.0, lin=neuro_opt_lin_model, xg=neuro_opt_xgb_model, alpha=neuro_opt_best_alpha, tf=neuro_opt_timeframes)
+primary_care = CNCDepartment(calls=4228, min=5, sec=41, fte=66.4, nrr=18.3, lin=pcp_lin_model, xg=pcp_xgb_model, alpha=pcp_best_alpha, tf=pcp_timeframes)
+cancer_care = CNCDepartment(calls=933, min=5, sec=39, fte=17.1, nrr=15.5, lin=cancer_lin_model, xg=cancer_xgb_model, alpha=cancer_best_alpha, tf=cancer_timeframes)
+heart_care = CNCDepartment(calls=1172, min=5, sec=20, fte=19.5, nrr=17.3, lin=heart_lin_model, xg=heart_xgb_model, alpha=heart_best_alpha, tf=heart_timeframes)
+ma_crt = CNCDepartment(calls=1071, min=6, sec=43, fte=17.4, nrr=23.1, lin=ma_lin_model, xg=ma_xgb_model, alpha=ma_best_alpha, tf=ma_timeframes)
+ref_phone = CNCDepartment(calls=706, min=4, sec=52, fte=6.5, nrr=23.3, lin=ref_lin_model, xg=ref_xgb_model, alpha=ref_best_alpha, tf=ref_timeframes)
+pain = CNCDepartment(calls=129, min=3, sec=49, fte=4.5, nrr=22.3, lin=pain_lin_model, xg=pain_xgb_model, alpha=pain_best_alpha, tf=pain_timeframes)
+neuro_opt = CNCDepartment(calls=575, min=4, sec=23, fte=11.0, nrr=15.8, lin=neuro_opt_lin_model, xg=neuro_opt_xgb_model, alpha=neuro_opt_best_alpha, tf=neuro_opt_timeframes)
 
 # functions
 def preprocess_input(calls, avg_handle_time, total_FTEs, not_ready_rate):
